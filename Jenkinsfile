@@ -1,9 +1,14 @@
 pipeline {
-    agent {label 'swarm'}
-    stages {
-        stage('Test') {
-            steps {
-                sh './gradlew build --no-daemon'
+    agent {
+        dockerfile {
+            filename 'dockerfile.slave'
+            label 'slave'
+        }
+        stages {
+            stage('Build') {
+                steps {
+                    sh './gradlew build'
+                }
             }
         }
     }
